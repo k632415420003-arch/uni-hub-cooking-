@@ -1,0 +1,38 @@
+{
+  "entities": {
+    "Comment": {
+      "title": "Comment",
+      "description": "A comment on a content item",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "author": { "type": "string" },
+        "text": { "type": "string" },
+        "image": { "type": "string" },
+        "replies": { "type": "array", "items": { "$ref": "Comment" } }
+      },
+      "required": ["id", "author", "text"]
+    },
+    "ContentItem": {
+      "title": "ContentItem",
+      "description": "A workshop or recipe content item",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "type": { "type": "string", "enum": ["workshop", "recipe"] },
+        "title": { "type": "string" },
+        "images": { "type": "array", "items": { "type": "string" } },
+        "content": { "type": "string" },
+        "comments": { "type": "array", "items": { "$ref": "Comment" } },
+        "createdAt": { "type": "number" }
+      },
+      "required": ["id", "type", "title", "images", "content", "comments", "createdAt"]
+    }
+  },
+  "firestore": {
+    "/items/{itemId}": {
+      "schema": "ContentItem",
+      "description": "Collection of content items (workshops and recipes)"
+    }
+  }
+}

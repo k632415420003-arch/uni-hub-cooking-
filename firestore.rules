@@ -1,0 +1,32 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // ===============================================================
+    // Assumed Data Model
+    // ===============================================================
+    //
+    // Collection: items
+    // Document ID: itemId
+    // Fields:
+    //   - id: string (required)
+    //   - type: string (required, 'workshop' or 'recipe')
+    //   - title: string (required)
+    //   - images: array of strings (required)
+    //   - content: string (required)
+    //   - comments: array of Comment objects (required)
+    //   - createdAt: number (required)
+    //
+    // ===============================================================
+
+    match /items/{itemId} {
+      // Allow public read so everyone can see workshops and recipes
+      allow read: if true;
+      
+      // Allow public create and update for now (to allow comments)
+      // In a real app, we would use Auth, but the user asked for a UI password 'TIN314'
+      allow create: if true;
+      allow update: if true;
+      allow delete: if true;
+    }
+  }
+}
